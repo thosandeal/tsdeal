@@ -10,7 +10,7 @@
 //     if (subId6) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 6, subId6);
 //     await pclick('div[data-should-execute-invisible-captcha-challenge="false"] span span', 1, 3000) // nhấn nút gửi và đợi 3000ms
 // }
-   function spinText(spinText) {
+      function spinText(spinText) {
     // Thay thế \r\r thành \n
     var result = spinText.replace(/\r\r/g, '\n');
 
