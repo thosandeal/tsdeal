@@ -41,4 +41,4 @@ function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', su
     return page.click(selector);
     }
 
-    return {spinText, capitalizeFirstLetter, reverseString,clickLink};
+    return {spinText, capitalizeFirstLetter, reverseString,clickLink,inputGoogleSheet};
