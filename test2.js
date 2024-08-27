@@ -5,7 +5,7 @@ const inputData = inputText.trim().split('\n').map(line => line.split('//##//'))
 
 
 // HÀM INPUT NỘI DUNG VÀO Ô
-async function pppinput(selector, number, text) {
+function pppinput(selector, number, text) {
     const numberx = number - 1;
     const elements = await page.$$(selector); // Lấy danh sách phần tử theo selector
     if (elements.length > numberx) {
@@ -22,7 +22,7 @@ async function pppinput(selector, number, text) {
 
 
 //HÀM CLICK VÀO SELECTOR 
-async function pclick(element, so, time) {
+function pclick(element, so, time) {
     const ele = await page.$$(element);
     const ok = so - 1;// đã trừ đi 1
     await ele[ok]?.click();
@@ -32,7 +32,7 @@ async function pclick(element, so, time) {
 // await pclick(selector cần nhấn, selector thứ mấy, sau đó đợi mấy giây);
 
 // HÀM ÚP ẢNH PUPUMAGE
-async function pupimage(selector, image) {
+function pupimage(selector, image) {
 
     await page.$eval('input.pptelement', (el, value) => { el.value = value; }, selector);
     await page.$eval('input.pptimage', (el, value) => { el.value = value; }, 'images/' + image); // nhập vào
@@ -42,7 +42,7 @@ async function pupimage(selector, image) {
 };
 //await pupimage(slector cần úp , tên ảnh);
 // HÀM KIỂM TRA VÀ CLICK
-async function pcheckclick(selector, time) {
+function pcheckclick(selector, time) {
     const elementHandle = await page.$(selector);
     if (elementHandle !== null) {
         await elementHandle.click();
@@ -52,7 +52,7 @@ async function pcheckclick(selector, time) {
 
 
 //HÀM SPINTEXT
-async function spinText(spinText) {
+function spinText(spinText) {
     // Thay thế \r\r thành \n
     var result = spinText.replace(/\r\r/g, '\n');
 
@@ -73,7 +73,7 @@ async function spinText(spinText) {
 
 
 // HÀM CHECK XPATH CLICK
-async function pcheckclickx(xpath, number, time) {
+function pcheckclickx(xpath, number, time) {
     const elements = await page.$x(xpath);  // Tìm tất cả các phần tử khớp với XPath
     // Kiểm tra xem phần tử thứ 'number' có tồn tại hay không
     const numberx = number - 1;
@@ -88,7 +88,7 @@ async function pcheckclickx(xpath, number, time) {
     }
 }
 
-async function gofanpage(puid) {
+function gofanpage(puid) {
     console.log('lỗi 1');
     await page.waitForTimeout(1000);
     //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
@@ -139,7 +139,7 @@ async function gofanpage(puid) {
 }
 
 //**FUNTION TẠO GR
-async function taogr(pname, pvitri, pbanner) {
+function taogr(pname, pvitri, pbanner) {
 
     //tạp biến pname
     // let pname; // khai báo biến pname mới sài đc
@@ -227,7 +227,7 @@ async function taogr(pname, pvitri, pbanner) {
     // END FUNTION DANGPOSTPAGE
 }
 
-async function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', subId5 = '', subId6 = '') {
+function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', subId5 = '', subId6 = '') {
     await page.goto('https://docs.google.com/forms/d/e/1FAIpQLScB82bM1zmvZ-h-jgENahEGk3GgfwmBicjfTZOOYJOwfn4QBw/viewform'); // vào google sheet điền thông tin
     await page.waitForTimeout(1000);  // Đợi 3 giây
     await page.waitForSelector('div[data-should-execute-invisible-captcha-challenge="false"] span span'); // đợi cho element xuất hiện thì thực hiện hành động tiếp theo
@@ -239,7 +239,7 @@ async function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = 
     if (subId6) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 6, subId6);
     await pclick('div[data-should-execute-invisible-captcha-challenge="false"] span span', 1, 3000) // nhấn nút gửi và đợi 3000ms
 }
-async function goVanBan(selector, text) {
+function goVanBan(selector, text) {
     const spans = await page.$$(selector);
 
     for (let span of spans) {
