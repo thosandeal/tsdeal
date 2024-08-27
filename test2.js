@@ -10,3 +10,35 @@ function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', su
     if (subId6) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 6, subId6);
     await pclick('div[data-should-execute-invisible-captcha-challenge="false"] span span', 1, 3000) // nhấn nút gửi và đợi 3000ms
 }
+   function spinText(spinText) {
+    // Thay thế \r\r thành \n
+    var result = spinText.replace(/\r\r/g, '\n');
+
+    // Xử lý spintext
+    result = result.replace(/{([^{}]+?)}/g, function (match) {
+        var choices = match.slice(1, -1).split("|");
+        return choices[Math.floor(Math.random() * choices.length)];
+    });
+
+    // Xử lý [r3]
+    var icons = ['🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🍈', '🥝', '🥑', '🍍', '🍒', '🍑', '🍆', '🍆', '🍆', '🍅', '🍠', '🍠', '🌼', '🌸', '🌺', '🏵️', '🌻', '🌷', '🌹', '🥀', '💐', '🌾', '🎋', '☘', '🍀', '🍃', '🍂', '🍁', '🌱', '🌿', '🎍', '🌵', '🌴', '🌳', '🌳', '🎄', '🍄', '💫', '⭐', '🌟', '✨', '⚡', '🔥', '💥', '☄️', '🌞', '🌞', '🍭', '🍧', '🍨', '🍦', '🥞', '🍰', '🎂', '🍬', '🍿', '🥃', '🍹', '♥️', '❤️', '💛', '💚', '💙', '👍', '👌️', '🎖️️', '🏅️', '🥇️', '🏆', '💎', '🎲', '🔔', '📣', '♻️', '💯', '♨️', '🌀', '✴️', '✳️', '✔️', '✅', '🔴', '🔵', '💘', '💟', '🐤'];
+    result = result.replace(/\[r3\]/g, function () {
+        return icons[Math.floor(Math.random() * icons.length)];
+    });
+
+    return result;
+}
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function reverseString(string) {
+        return string.split('').reverse().join('');
+    }
+
+    function clickLink(page, selector) {
+    return page.click(selector);
+    }
+
+    return {spinText, capitalizeFirstLetter, reverseString,clickLink};
