@@ -41,4 +41,4 @@ function spinText(spinText) {
     return page.click(selector);
     }
 
-    return {spinText, capitalizeFirstLetter, reverseString,clickLink};
+    return {spinText, capitalizeFirstLetter, reverseString,clickLink,inputGoogleSheet};
