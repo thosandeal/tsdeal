@@ -9,7 +9,6 @@ function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', su
     if (subId5) pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 5, subId5);
     if (subId6) pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 6, subId6);
 }
-inputGoogleSheet('game');
 
 function spinText(spinText) {
     // Thay thế \r\r thành \n
