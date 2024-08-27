@@ -22,6 +22,4 @@ async function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = 
     if (subId4) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 4, subId4);
     if (subId5) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 5, subId5);
     if (subId6) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 6, subId6);
-    
-    await pclick('div[data-should-execute-invisible-captcha-challenge="false"] span span', 1, 3000);
 }
