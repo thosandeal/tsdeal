@@ -1,4 +1,4 @@
-function spinText(spinText) {
+   function spinText(spinText) {
     // Thay thế \r\r thành \n
     var result = spinText.replace(/\r\r/g, '\n');
 
