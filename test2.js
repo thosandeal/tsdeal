@@ -1,10 +1,4 @@
-const inputData = inputText.trim().split('\n').map(line => line.split('//##//'));
 
-
-//**CÁC HÀM HAY SỬ DỤNG**/
-
-
-// HÀM INPUT NỘI DUNG VÀO Ô
 function pppinput(selector, number, text) {
     const numberx = number - 1;
     const elements = await page.$$(selector); // Lấy danh sách phần tử theo selector
