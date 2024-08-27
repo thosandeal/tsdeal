@@ -6,9 +6,7 @@ async function pppinput(selector, number, text) {
         await page.evaluate((el) => el.value = '', elementHandle); // làm trống ô nhập liệu trước khi điền
         await elementHandle.click();
         await page.keyboard.sendCharacter(text); // nhập nội dung
-        console.log(`Đã nhập nội dung vào ${selector} thứ ${numberx}`);
     } else {
-        console.log(`Không tìm thấy ${selector} thứ ${numberx}`);
     }
 
 async function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', subId5 = '', subId6 = '') {
