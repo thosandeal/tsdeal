@@ -1,5 +1,3 @@
-//========TẠO HÀM===========
-//>TÁCH NỘI DUNG TỪ INPUTTEXT
 const inputData = inputText.trim().split('\n').map(line => line.split('//##//'));
 
 
