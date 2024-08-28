@@ -475,7 +475,7 @@ const mfp = {
         console.log("tiến hàng post bài");
         await page.waitForTimeout(1000); // đợi 1000ms
         //await pclick('div[role="button"] span[style="-webkit-box-orient: vertical; -webkit-line-clamp: 2; display: -webkit-box;"]',1,3000); // nhấn vào selector và đợi 3 giây
-        await this.pclick('div[role="button"] span[style="-webkit-box-orient:vertical;-webkit-line-clamp:2;display:-webkit-box"]', 1, 3000); // nhấn vào selector và đợi 3 giây
+        await this.pclick('div[role="button"] span[style="-webkit-box-orient: vertical; -webkit-line-clamp: 2; display: -webkit-box;"]', 1, 3000); // nhấn vào selector và đợi 3 giây
         await this.pcheckclick('div[aria-label="Xong"]', 2000);
         //>> CHỌN VỊ TRÍ BÀI ĐĂNG
         await this.pclick('img[style="height: 24px; width: 24px;"]', 3, 1000); // nhấn vào biểu tượng icon số 3 và đợi 1000ms
