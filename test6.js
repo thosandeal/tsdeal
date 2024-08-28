@@ -41,11 +41,18 @@ const mfp = {
 
     //HÀM CLICK VÀO SELECTOR 
     pclick: async function (element, so, time) {
-        const ele = await page.$$(element);
-        const ok = so - 1;// đã trừ đi 1
-        await ele[ok]?.click();
-        await page.waitForTimeout(time);
+    const ele = await page.$$(element);
+    const ok = so - 1; // đã trừ đi 1
+
+    if (ele[ok]) {
+        console.log(`Element tại chỉ số ${ok} tồn tại.`);
+        await ele[ok].click();
+    } else {
+        console.log(`Element tại chỉ số ${ok} không tồn tại.`);
+    }
+    await page.waitForTimeout(time);
     },
+
     //await pclick('div[aria-posinset="1"][role="article"] span[dir="auto"] span span span a[role="link"][tabindex="0"]',2);
     // await pclick(selector cần nhấn, selector thứ mấy, sau đó đợi mấy giây);
 
