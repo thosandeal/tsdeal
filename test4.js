@@ -1,4 +1,4 @@
-ff.pppinput = async function(selector, number, text) {
+globalThis.pppinput = async function(selector, number, text) {
     const numberx = number - 1;
     const elements = await page.$$(selector); // Lấy danh sách phần tử theo selector
     if (elements.length > numberx) {
@@ -10,10 +10,11 @@ ff.pppinput = async function(selector, number, text) {
     } else {
         console.log(`Không tìm thấy ${selector} thứ ${numberx}`);
     }
+};
 
-ff.inputGoogleSheet = async function inputGoogleSheet(subId1 = '', subId2 = '', subId3 = '', subId4 = '', subId5 = '', subId6 = '') {
+globalThis.inputGoogleSheet = async function(subId1 = '', subId2 = '', subId3 = '', subId4 = '', subId5 = '', subId6 = '') {
     await page.goto('https://docs.google.com/forms/d/e/1FAIpQLScB82bM1zmvZ-h-jgENahEGk3GgfwmBicjfTZOOYJOwfn4QBw/viewform'); // vào google sheet điền thông tin
-    await page.waitForTimeout(1000);  // Đợi 3 giây
+    await page.waitForTimeout(1000);  // Đợi 1 giây
     await page.waitForSelector('div[data-should-execute-invisible-captcha-challenge="false"] span span'); // đợi cho element xuất hiện thì thực hiện hành động tiếp theo
     if (subId1) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 1, subId1);
     if (subId2) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 2, subId2);
@@ -21,4 +22,4 @@ ff.inputGoogleSheet = async function inputGoogleSheet(subId1 = '', subId2 = '', 
     if (subId4) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 4, subId4);
     if (subId5) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 5, subId5);
     if (subId6) await pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 6, subId6);
-}
+};
