@@ -38,23 +38,18 @@ const mfp = {
         await page.keyboard.press('Backspace');// Xóa văn bản đã bôi đen
         await page.keyboard.sendCharacter(text);    // Nhập vào nội dung mới
     },
-
     //HÀM CLICK VÀO SELECTOR 
     pclick: async function (element, so, time) {
     const ele = await page.$$(element);
     const ok = so - 1; // đã trừ đi 1
 
-    console.log(`Đang tìm kiếm element: "${element}" tại vị trí ${so} (index ${ok})`);
-
     if (ele[ok]) {
-        console.log(`Element "${element}" tại chỉ số ${ok} tồn tại.`);
         await ele[ok].click();
         console.log(`Đã click vào element "${element}" tại chỉ số ${ok}.`);
     } else {
-        console.log(`Element "${element}" tại chỉ số ${ok} không tồn tại.`);
+        console.log(`Element "${element}" số ${ok} không tồn tại.`);
     }
-
-    console.log(`Đang chờ ${time}ms...`);
+    console.log(`Đang chờ ${time}ms... để thực hiện hành động tiếp theo`);
     await page.waitForTimeout(time);
 },
 
