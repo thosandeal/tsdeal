@@ -650,6 +650,20 @@ pclick: async function(element, so, time, note = '') {
 
         return data;
     },
+   postPageGroup: async function(pcode, puid, puidgr, ppost, pimage, pvitri) {
+    //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
+    await this.gofanpage(puid); // làm admin fanpage
+     console.log('lỗi 333');
+    await this.ppostpage(ppost, pimage, pvitri);
+         console.log('lỗi 444');
+
+    const urlpostpage = await page.url(); // lấy link post hiện tại
+    await this.gogroup(puidgr);
+    await this.ppostgroup(ppost, pimage, pvitri);
+    const urlpostgroup = await page.url(); // lấy link post hiện tại
+    await this.inputGoogleSheet(pcode, puid, puidgr, urlpostpage, urlpostgroup, "đăng page group"); // nhập id
+
+},
 
 
 }
