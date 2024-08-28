@@ -39,17 +39,16 @@ const mfp = {
         await page.keyboard.sendCharacter(text);    // Nhập vào nội dung mới
     },
     //HÀM CLICK VÀO SELECTOR 
-    pclick: async function (element, so, time) {
+pclick: async function(element, so, time, note = '') {
+
     const ele = await page.$$(element);
     const ok = so - 1; // đã trừ đi 1
-
     if (ele[ok]) {
         await ele[ok].click();
-        console.log(`Đã click vào element "${element}" tại chỉ số ${so}.`);
+        console.log(`${note}  > "${element}" số ${so} > Đã click.`);
     } else {
-        console.log(`Element "${element}" số ${so} không tồn tại.`);
+        console.log(`${note}  > "${element}" số ${so} > Không tồn tại.`);
     }
-    console.log(`Đang chờ ${time}ms... để thực hiện hành động tiếp theo`);
     await page.waitForTimeout(time);
 },
 
