@@ -664,20 +664,30 @@ pclick: async function(element, so, time, note = '') {
     await this.inputGoogleSheet(pcode, puid, puidgr, urlpostpage, urlpostgroup, "đăng page group"); // nhập id
 
 },
+    runpostPageGroup: async function(start, data) {
+    let startIndex = 0;
 
-runpostPageGroup: async function(start,data) {
-    for (let i = start - 1; i < data.pcode.length; i++) {
+    if (typeof start === 'number') {
+        startIndex = Math.max(0, start - 1);
+    } else if (start === undefined || start === '') {
+        startIndex = 0;
+    } else if (typeof start === 'string') {
+        startIndex = data.pcode.indexOf(start);
+        if (startIndex === -1) {
+            startIndex = 0;
+        }
+    }
+console.log(`Vòng lặp thứ ${startIndex + 1} với post ${data.pcode[startIndex]}`);
+    for (let i = startIndex; i < data.pcode.length; i++) {
         let errorOccurred;
-        // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
         do {
             errorOccurred = false;
             try {
                 await this.postPageGroup(data.pcode[i], data.puid[i], data.puidgr[i], data.ppost[i], data.pimage[i], data.pvitri[i]);
-                // (pcode,puid,pname,pvitri,pbanne)
-                console.log('vòng lặp đang tiếp theo');
+                console.log('Vòng lặp đang tiếp tục');
             } catch (error) {
                 if (error.message === 'A') {
-                    errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
+                    errorOccurred = true;
                     console.log('Gặp lỗi "A", thử lại...');
                 } else {
                     await page.evaluate(() => {
