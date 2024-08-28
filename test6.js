@@ -45,9 +45,9 @@ const mfp = {
 
     if (ele[ok]) {
         await ele[ok].click();
-        console.log(`Đã click vào element "${element}" tại chỉ số ${ok}.`);
+        console.log(`Đã click vào element "${element}" tại chỉ số ${so}.`);
     } else {
-        console.log(`Element "${element}" số ${ok} không tồn tại.`);
+        console.log(`Element "${element}" số ${so} không tồn tại.`);
     }
     console.log(`Đang chờ ${time}ms... để thực hiện hành động tiếp theo`);
     await page.waitForTimeout(time);
