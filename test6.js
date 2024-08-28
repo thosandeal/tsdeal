@@ -465,6 +465,8 @@ const mfp = {
 
         //>> NHẤN VÀO KHỞI CHẠY BÀI VIẾT
         await page.waitForTimeout(1000); // đợi 1000ms
+        console.log("tiến hàng post bài");
+        await page.waitForTimeout(1000); // đợi 1000ms
         //await pclick('div[role="button"] span[style="-webkit-box-orient: vertical; -webkit-line-clamp: 2; display: -webkit-box;"]',1,3000); // nhấn vào selector và đợi 3 giây
         await this.pclick('div[role="button"] span[style="-webkit-box-orient:vertical;-webkit-line-clamp:2;display:-webkit-box"]', 1, 3000); // nhấn vào selector và đợi 3 giây
         await this.pcheckclick('div[aria-label="Xong"]', 2000);
