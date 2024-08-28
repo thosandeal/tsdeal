@@ -625,6 +625,23 @@ const mfp = {
 
 
     },
+    convertData: function(inputText) {
+        // Tách nội dung từ inputText
+        const inputData = inputText.trim().split('\n').map(line => line.split('//##//'));
+
+        // Tạo đối tượng data để chứa các mảng con
+        const data = {};
+
+        // Lấy tên cột từ hàng đầu tiên
+        const columnNames = inputData[0];
+
+        // Tạo mảng con cho mỗi cột
+        columnNames.forEach((columnName, index) => {
+            data[columnName] = inputData.slice(1).map(row => row[index]);
+        });
+
+        return data;
+    },
 
 
 }
