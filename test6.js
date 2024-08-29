@@ -850,7 +850,7 @@ runToiUuPage:async function(data) {
         do {
             errorOccurred = false;
             try {
-                await toiUuPage(data.pcode[i], data.puid[i], data.pavatar[i], data.pbanner[i], data.pcity[i], data.pzip[i], data.pvitri[i], data.pphonev1[i], data.pphonev2[i], data.pmail[i], data.pweb[i], data.pmess[i]);
+                await this.toiUuPage(data.pcode[i], data.puid[i], data.pavatar[i], data.pbanner[i], data.pcity[i], data.pzip[i], data.pvitri[i], data.pphonev1[i], data.pphonev2[i], data.pmail[i], data.pweb[i], data.pmess[i]);
                 // (pcode,puid,pname,pvitri,pbanne)
                 console.log('vòng lặp đang tiếp theo');
             } catch (error) {
