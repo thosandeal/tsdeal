@@ -844,7 +844,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
    
     
 runToiUuPage:async function(data) {
-    for (let i = 0; i < inputData.length; i++) {
+    for (let i = 0; i < data.pcode.length; i++) {
         let errorOccurred;
         // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
         do {
