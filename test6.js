@@ -719,22 +719,25 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     //**ẢNH BÌA VÀ AVATAR */
 
     //**tạo avatar */
-    await this.pcheckclickx('//div[@aria-label="Cập nhật ảnh đại diện"]', 1, 1000);
+    await this.pcheckclickx('//div[@aria-label="Cập nhật ảnh đại diện"]', 1, 1000,"Tạo avatar");
     await this.pupimage('div[aria-label="Chọn ảnh đại diện"] input[type="file"]', pavatar);
     await page.waitForTimeout(5000);
     await page.waitForXPath('//span[text()="Lưu"]'); // đợi chữ lưu thay đổi xuất hiện
     await this.pcheckclickx('//span[text()="Lưu"]', 1, 5000); // Lưu
 
     // **tạo ảnh bìa*/
+    console.log("Tạo ảnh bìa");
     await this.pupimage('input[type="file"]', pbanner);
     await page.waitForTimeout(5000);
     await page.waitForXPath('//span[text()="Lưu thay đổi"]'); // đợi chữ lưu thay đổi xuất hiện
     await this.pcheckclickx('//span[text()="Lưu thay đổi"]', 2, 5000); // nhấn vào chữ lưu thay đổi
 
     //** SỬA PHẦN 1 */
+    console.log("Vào editor");
     await page.goto('https://www.facebook.com/profile.php?id=' + puid + '&sk=about_contact_and_basic_info');
     await page.waitForTimeout(5000);
     // **sửa địa chỉ pcity
+    console.log("sửa địa chỉ");
     await this.pcheckclickx('//span[text()="Thêm địa chỉ của bạn"]', 1, 1000);
     await this.pppinput('input[aria-label="Thành phố/Thị xã"]', 1, pcity);
     await page.waitForTimeout(2000);
@@ -744,6 +747,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
     // **khu vực dịch vụ
+    console.log("khu vực dịch vụ");
     await this.pcheckclickx('//span[text()="Thêm khu vực dịch vụ"]', 1, 1000);
     for (let i = 0; i < 3; i++) {
         await this.pppinput('input[aria-label="Khu vực dịch vụ"]', 1, pvitri);
@@ -753,27 +757,32 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
     //** thêm mail */
+    console.log("Thêm mail");
     await this.pcheckclickx('//span[text()="Thêm email"]', 1, 1000);
     await this.pppinput('label[aria-label="Email"]', 1, pmail);
     await page.waitForTimeout(2000);
     await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
     //**Thêm một trang web*/
+    console.log("Thêm web");
     await this.pcheckclickx('//span[text()="Thêm một trang web"]', 1, 1000);
     await this.pppinput('label[aria-label="Địa chỉ trang web"]', 1, pweb);
     await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
 
     //**Thêm giờ mở cửa*/
+    console.log("Thêm giờ mở cửa");
     await this.pcheckclickx('//span[text()="Thêm giờ mở cửa"]', 1, 1000);
     await this.pcheckclickx('//span[text()="Luôn mở cửa"]', 1, 1000);
     await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
 
     // **Thêm khoảng giá*/
+    console.log("Thêm khoảng giá");
     await this.pcheckclickx('//span[text()="Thêm khoảng giá"]', 1, 1000);
     await this.pcheckclickx('//input[@aria-checked="false"]', 1, 1000);
     await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
 
     //**Thêm số điện thoại*/
+    console.log("Thêm số điện thoại");
     await this.pcheckclickx('//span[text()="Thêm số điện thoại"]', 1, 1000);
     await this.pcheckclickx('//div[@aria-expanded="false"][@aria-haspopup="menu"] //div //span', 1, 1000);
     await this.pppinput('input[aria-invalid="false"][aria-label="Tìm kiếm"]', 1, pphonev1.toString());
