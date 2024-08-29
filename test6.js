@@ -841,6 +841,31 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     await this.inputGoogleSheet(pcode, puid,puidv2,"Tối fanpage hoàn tất");
 
 },
+   
+    
+runToiUuPage:async function(data) {
+    for (let i = 0; i < inputData.length; i++) {
+        let errorOccurred;
+        // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
+        do {
+            errorOccurred = false;
+            try {
+                await toiUuPage(data.pcode[i], data.puid[i], data.pavatar[i], data.pbanner[i], data.pcity[i], data.pzip[i], data.pvitri[i], data.pphonev1[i], data.pphonev2[i], data.pmail[i], data.pweb[i], data.pmess[i]);
+                // (pcode,puid,pname,pvitri,pbanne)
+                console.log('vòng lặp đang tiếp theo');
+            } catch (error) {
+                if (error.message === 'A') {
+                    errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
+                    console.log('Gặp lỗi "A", thử lại...');
+                } else {
+                    await page.evaluate(() => {
+                        window.onbeforeunload = null;
+                    });
+                }
+            }
+        } while (errorOccurred);
+    }
+},
     
 }
 globalThis.mfp = mfp;
