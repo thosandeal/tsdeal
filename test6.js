@@ -66,7 +66,8 @@ pclick: async function(element, so, time, note = '') {
     },
     //await pupimage(slector cần úp , tên ảnh);
     // HÀM KIỂM TRA VÀ CLICK
-    pcheckclick: async function (selector, time) {
+    pcheckclick: async function (selector, time,note="") {
+        if(note) console.log(note);
         const elementHandle = await page.$(selector);
         if (elementHandle !== null) {
             await elementHandle.click();
@@ -97,7 +98,8 @@ pclick: async function(element, so, time, note = '') {
 
 
     // HÀM CHECK XPATH CLICK
-    pcheckclickx: async function (xpath, number, time) {
+    pcheckclickx: async function (xpath, number, time,note="") {
+        if(note) console.log(note);
         const elements = await page.$x(xpath);  // Tìm tất cả các phần tử khớp với XPath
         // Kiểm tra xem phần tử thứ 'number' có tồn tại hay không
         const numberx = number - 1;
