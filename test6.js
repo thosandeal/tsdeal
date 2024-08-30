@@ -107,10 +107,10 @@ pclick: async function(element, so, time, note = '') {
             // Nếu phần tử tồn tại, nhấn vào nó
             await elements[numberx].click();
             await page.waitForTimeout(time);
-            console.log(`Phần tử thứ '${number}' của '${xpath}' tồn tại và đã được nhấn.`);
+            console.log(`${note} > '${xpath}' số '${numberx}' > Đã nhấn.`);
         } else {
             // Nếu phần tử không tồn tại, in ra thông báo
-            console.log(`Phần tử thứ '${number}' của '${xpath}' không tồn tại.`);
+            console.log(`${note} > '${xpath}' số '${numberx}' > : Không tìm thấy.`);
         }
     },
 
