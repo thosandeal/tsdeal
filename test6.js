@@ -890,7 +890,29 @@ runToiUuPage:async function(data) {
         } while (errorOccurred);
     }
 },
-    
+     runTaoGrFb: async function(data) {
+    for (let i = 0; i < data.pcode.length; i++) {
+        let errorOccurred;
+        // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
+        do {
+            errorOccurred = false;
+            try {
+                await this.taoGrFb(data.pcode[i], data.puid[i], data.pname[i], data.pvitri[i], data.pbanner[i]);
+                // (pcode,puid,pname,pvitri,pbanne)
+                console.log('vòng lặp đang tiếp theo');
+            } catch (error) {
+                if (error.message === 'A') {
+                    errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
+                    console.log('Gặp lỗi "A", thử lại...');
+                } else {
+                    await page.evaluate(() => {
+                        window.onbeforeunload = null;
+                    });
+                }
+            }
+        } while (errorOccurred);
+    }
+},
     
 }
 globalThis.mfp = mfp;
