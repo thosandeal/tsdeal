@@ -153,6 +153,7 @@ pclick: async function(element, so, time, note = '') {
 
             }
             //ĐÓNG POPUP v2
+            console.log("Kiểm tra lại sau khi là admin còn popup nào không");
             await this.pcheckclick('div[aria-label="Đóng"]', 1000) // tắt thông báo Dùng thửF
             await this.pcheckclickx('//span[text()="Tiếp"]', 2, 2000);
             await this.pcheckclickx('//span[text()="Chấp nhận"]', 2, 2000);
