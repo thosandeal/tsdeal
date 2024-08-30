@@ -846,7 +846,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     const pmessok = await this.spinText(pmess);
     for (let i = 0; i < 3; i++) {
         await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
-        await page.waitForTimeout(5000);
+        await page.waitForTimeout(10000);
         const checktl = await page.$x('//div[text()="Tin trả lời nhanh"]');
         if (checktl.length > 0) {
             console.log('Đã hiện bảng seting mess');
