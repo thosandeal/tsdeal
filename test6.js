@@ -308,14 +308,17 @@ pclick: async function(element, so, time, note = '') {
         const currentUrl = page.url(); // lấy link url hiện tại
         const newUrl = currentUrl + '/edit';
         await page.goto(newUrl); // đến trang chỉnh sửa để tối ưu gr
-
+        
 
         // nhấn vào nút đợi slector xuất hiện thì edit
+        
+        console.log("đã vào phần edit group");
         await page.waitForTimeout(10000);
-        await page.waitForXPath('//span[contains(text(), "Quản lý cài đặt nâng cao")]');    //đợi cho XPath xuất hiện
+        // await page.waitForXPath('//span[contains(text(), "Quản lý cài đặt nâng cao")]');    //đợi cho XPath xuất hiện
 
 
         // click chỉnh sửa quyền đăng bài
+        console.log("chỉnh quyền đăng bài");
         await page.click('div[aria-label="Chỉnh sửa cách phê duyệt bài viết"]');
         await page.waitForTimeout(1000); // đợi 1s để hiển thị bảng tuỳ chỉnh
         await this.pcheckclickx('//span //span[text() = "Bật"]', 1, 1000); // nhấn nút lưu vị trí
@@ -330,6 +333,8 @@ pclick: async function(element, so, time, note = '') {
         await page.waitForTimeout(3000);
 
         // chỉnh sửa vị trí nhóm, kiểm tra có vị trí thì mới thực hiện
+        
+        console.log("chỉnh sửa vị trí nhóm");
         if (pvitri) {
             await page.click('div[aria-label="Chỉnh sửa vị trí"]'); // nhấn voà chỉnh sửa vị trí
             await page.waitForTimeout(1000); // đợi 1s để hiện bảng
