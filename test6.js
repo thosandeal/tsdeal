@@ -151,7 +151,7 @@ pclick: async function(element, so, time, note = '') {
                 await this.pcheckclickx('//span[text()="Cho phép tất cả cookie"]', 1, 2000);
                 await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
 
-            }
+            },
             //ĐÓNG POPUP v2
             console.log("Kiểm tra lại sau khi là admin còn popup nào không");
             await this.pcheckclick('div[aria-label="Đóng"]', 1000) // tắt thông báo Dùng thửF
