@@ -115,7 +115,7 @@ pclick: async function(element, so, time, note = '') {
     },
 
     gofanpage: async function (puid) {
-        console.log('lỗi 1');
+        console.log('Kiểm tra admin');
         await page.waitForTimeout(1000);
         //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
         await page.goto('https://www.facebook.com/' + puid);
@@ -127,6 +127,13 @@ pclick: async function(element, so, time, note = '') {
             if (dieukien.length > 0) { // nếu phần tử tồn tại tức đã là admin
                 console.log('bạn đã là admin'); // thông báo làm admin 
                 await page.waitForTimeout(2000);
+                //ĐÓNG POPUP v2
+            console.log("Kiểm tra lại sau khi là admin còn popup nào không");
+            await this.pcheckclick('div[aria-label="Đóng"]', 1000) // tắt thông báo Dùng thửF
+            await this.pcheckclickx('//span[text()="Tiếp"]', 2, 2000);
+            await this.pcheckclickx('//span[text()="Chấp nhận"]', 2, 2000);
+            await this.pcheckclickx('//span[text()="Cho phép tất cả cookie"]', 1, 2000);
+            await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
                 break; // hoàn thành và thoát khỏi vòng lặp
             } else {
                 //ĐÓNG POPUP v1
@@ -151,14 +158,8 @@ pclick: async function(element, so, time, note = '') {
                 await this.pcheckclickx('//span[text()="Cho phép tất cả cookie"]', 1, 2000);
                 await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
 
-            },
-            //ĐÓNG POPUP v2
-            console.log("Kiểm tra lại sau khi là admin còn popup nào không");
-            await this.pcheckclick('div[aria-label="Đóng"]', 1000) // tắt thông báo Dùng thửF
-            await this.pcheckclickx('//span[text()="Tiếp"]', 2, 2000);
-            await this.pcheckclickx('//span[text()="Chấp nhận"]', 2, 2000);
-            await this.pcheckclickx('//span[text()="Cho phép tất cả cookie"]', 1, 2000);
-            await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
+            }
+            
 
         }
 
