@@ -736,6 +736,9 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     console.log("Vào editor");
     await page.goto('https://www.facebook.com/profile.php?id=' + puid + '&sk=about_contact_and_basic_info');
     await page.waitForTimeout(5000);
+
+    // tắt thông báo
+    await mfp.pcheckclick('div[aria-label="Dùng Trang"]',3000,"Tắt thông báo Dùng Trang nếu có");
     // **sửa địa chỉ pcity
     console.log("sửa địa chỉ");
     await this.pcheckclickx('//span[text()="Thêm địa chỉ của bạn"]', 1, 1000);
