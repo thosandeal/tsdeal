@@ -367,6 +367,16 @@ pclick: async function(element, so, time, note = '') {
         return hasText;
     },
 
+taoGrFb:async function(pcode, puid, pname, pvitri, pbanner) {
+    //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
+    await this.gofanpage(puid); // làm admin fanpage
+    await this.taogr(pname, pvitri, pbanner); // tạo page vị trí
+    const groupId = (await page.url()).split('/groups/')[1].split('/')[0]; // lấy group id
+    await .this.inputGoogleSheet(pcode, puid, groupId, pname, "tao gr"); // nhập id
+
+},
+
+    
     // chọn nick chính
     chonNickChinh: async function () {
         while (true) {
@@ -880,6 +890,7 @@ runToiUuPage:async function(data) {
         } while (errorOccurred);
     }
 },
+    
     
 }
 globalThis.mfp = mfp;
