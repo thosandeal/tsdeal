@@ -841,7 +841,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
         return matches ? matches[1] : 'not found';
     });
 
-    const pmessok = await spinText(pmess);
+    const pmessok = await this.spinText(pmess);
     for (let i = 0; i < 3; i++) {
         await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
         await page.waitForTimeout(5000);
