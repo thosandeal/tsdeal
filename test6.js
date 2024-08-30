@@ -787,7 +787,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     //**Thêm số điện thoại*/
     console.log("Thêm số điện thoại");
     await this.pcheckclickx('//span[text()="Thêm số điện thoại"]', 1, 1000);
-    await this.pcheckclickx('//div[@aria-expanded="false"][@aria-haspopup="menu"] //div //span', 1, 1000);
+    await this.pcheckclickx('//div[@aria-expanded="false"][@role="button"] [@aria-haspopup="menu"] //div //span', 1, 1000);
     await this.pppinput('input[aria-invalid="false"][aria-label="Tìm kiếm"]', 1, pphonev1.toString());
     await this.pcheckclickx('//div[@aria-checked="false"][@role="menuitemradio"]', 1, 1000);
     await this.pppinput('label[aria-label="Số điện thoại"]', 1, pphonev2.toString());
