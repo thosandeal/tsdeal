@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      function generateList() {
+        let inputA = document.getElementById("inputA").value.split("\n");
+        let inputB = document.getElementById("inputB").value.split("\n");
+        let inputC = document.getElementById("inputC").value.split("\n");
+        let inputD = document.getElementById("inputD").value.split("\n");
+        let inputE = document.getElementById("inputE").value.split("\n");
+
+        let resultList = document.getElementById("result");
+        resultList.value = "";
+        let resultCount = 0;
+
+        for (let i = 0; i < inputA.length; i++) {
+          for (let j = 0; j < inputB.length; j++) {
+            for (let k = 0; k < inputC.length; k++) {
+              for (let l = 0; l < inputD.length; l++) {
+                for (let m = 0; m < inputE.length; m++) {
+                  let result = inputA[i] + inputB[j] + inputC[k] + inputD[l] + inputE[m];
+                  resultList.value += result + "\n";
+                  resultCount++;
+                }
+              }
+            }
+          }
+        }
+
+        document.getElementById("resultCount").innerHTML = "Số kết quả tạo được: " + resultCount;
+      }
+
+      function copyResult() {
+        let resultList = document.getElementById("result");
+        resultList.select();
+        document.execCommand("copy");
+      }
+    </script>
+  </head>
+  <body>
+    <textarea id="inputA" rows="5" cols="200" style="width:200px; height:400px;"></textarea>
+    <textarea id="inputB" rows="5" cols="200" style="width:200px; height:400px;"></textarea>
+    <textarea id="inputC" rows="5" cols="200" style="width:200px; height:400px;"></textarea>
+    <textarea id="inputD" rows="5" cols="200" style="width:200px; height:400px;"></textarea>
+
+<textarea id="inputE" rows="5" cols="200" style="width:200px; height:400px;"></textarea>
+<br><br>
+<button onclick="generateList()">Generate List</button>
+<br><br>
+
+<p id="resultCount"></p>
+<textarea id="result" rows="10" cols="200" style="width:200px; height:200px;"></textarea>
+<br>
+<button onclick="copyResult()">Copy</button>
+  </body>
+</html>
