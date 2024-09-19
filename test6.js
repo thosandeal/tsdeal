@@ -859,7 +859,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
     try {
         console.log('tiền hành edit mess');
         await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 1000);
-        await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
+        // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
         await this.goVanBan('span[data-text="true"]', pmessok);
         await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
     }
