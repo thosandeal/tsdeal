@@ -858,10 +858,17 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
 
     try {
         console.log('tiền hành edit mess');
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 1000);
+        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+    
         // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
         await this.goVanBan('span[data-text="true"]', pmessok);
         await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
+        // vào kiểm tra lại coi đã bật chưa thì bật lại tiếp
+        await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
+        await page.waitForTimeout(7000);
+        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+        
     }
     catch (e) {
         console.log('lỗi cc');
