@@ -925,11 +925,12 @@ runToiUuPage:async function(data) {
 test1da: async function () {
     try {
         console.log('tiền hành edit mess');
+          await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
         await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
         await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
 
         // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
-        await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
+        // await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
         await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
     }
     catch (e) {
