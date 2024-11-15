@@ -964,3 +964,29 @@ test1da: async function () {
 // END :NHỮNG FUNTION NHỎ ĐỂ TEST TỪNG CÁI MỘT
 }
 globalThis.mfp = mfp;
+
+
+// SỬ DỤNG PUPETEER 
+// //**NHẬP DATA */
+// const inputText = `
+// pcode//##//puid//##//geo name//##//pavatar//##//pbanner//##//pvitri//##//pcity//##//pzip//##//pphonev1//##//pphonev2//##//pmail//##//pweb//##//pmess
+// topbimo-mx//##//61566083120579//##//Mexico//##//mx-avatar.jpg//##//mx-banner.jpg//##//Mexico//##//Mexico City//##//1000//##//52//##//8999999999//##//topbimo@gmail.com//##//https://topbimo.com//##//¡Hola! Por favor, visita este sitio web para obtener el mejor soporte 𝗧𝗼𝗽𝗕𝗶𝗺𝗼.𝗖𝗼𝗺
+// topbimo-us//##//61566123890137//##//United States//##//us-avatar.jpg//##//us-banner.jpg//##//United States//##//Washington, D.C.//##//20001//##//hoa 
+// `;
+
+// const response = await fetch('https://raw.githubusercontent.com/thosandeal/tsdeal/main/test6.js');
+// const mfpcode = await response.text();
+// eval(mfpcode);
+// // Hiển thị giá trị đầu tiên của mảng pcode
+// const data = mfp.convertData(inputText);
+
+// // ███████    ████████     █████     ██████     ████████ 
+// // ██            ██       ██   ██    ██   ██       ██    
+// // ███████       ██       ███████    ██████        ██    
+// //      ██       ██       ██   ██    ██   ██       ██    
+// // ███████       ██       ██   ██    ██   ██       ██    
+
+
+// await mfp.runToiUuPage(data);
+// console.log("ok");
+// console.log(data);
