@@ -326,18 +326,10 @@ pclick: async function(element, so, time, note = '') {
         await this.pcheckclickx('//span //span[text() = "Bật"]', 1, 1000); // nhấn nút lưu vị trí
         await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
         await page.waitForTimeout(3000);
-
-        // sửa đối tượng tham gia nhóm
-        await page.click('div[aria-label="Chỉnh sửa ai có thể tham gia nhóm"]');// nhấn vào nút "cài đặt tham gia nhóm"
-        await page.waitForTimeout(1000); // đợi 1s để hiện tuỳ chỉnh
-        await this.pcheckclickx('//span[text() = "Trang cá nhân và Trang"]', 1, 1000); // nhấn nút lưu vị trí
-        await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
-        await page.waitForTimeout(3000);
-
+        
         // chỉnh sửa vị trí nhóm, kiểm tra có vị trí thì mới thực hiện
-        
         console.log("chỉnh sửa vị trí nhóm");
-        
+            if (pvitri) {
             await page.click('div[aria-label="Chỉnh sửa vị trí"]'); // nhấn voà chỉnh sửa vị trí
             await page.waitForTimeout(1000); // đợi 1s để hiện bảng
             await page.type('label[aria-label="Vị trí nhóm"]', pvitri); // nhập vị trí
@@ -345,7 +337,14 @@ pclick: async function(element, so, time, note = '') {
             await page.click('li[aria-selected="false"][role="option"]'); // chọn li đầu tiên làm vị trí
             await page.waitForTimeout(2000); // đợi 2s để xác nhận
             await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
-    
+            }
+        // sửa đối tượng tham gia nhóm
+        await page.click('div[aria-label="Chỉnh sửa ai có thể tham gia nhóm"]');// nhấn vào nút "cài đặt tham gia nhóm"
+        await page.waitForTimeout(1000); // đợi 1s để hiện tuỳ chỉnh
+        await this.pcheckclickx('//span[text() = "Trang cá nhân và Trang"]', 1, 1000); // nhấn nút lưu vị trí
+        await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
+        await page.waitForTimeout(3000);
+
 
         // END FUNTION DANGPOSTPAGE
     },
