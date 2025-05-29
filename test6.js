@@ -56,23 +56,14 @@ pclick: async function(element, so, time, note = '') {
     // await pclick(selector cần nhấn, selector thứ mấy, sau đó đợi mấy giây);
 
     // HÀM ÚP ẢNH PUPUMAGE
-    pupimage: async function (selector, image, index = 0) {
-    // Lấy tất cả input[type="file"] khớp selector
-    const inputs = await page.$$(selector);
-    if (inputs.length > index) {
-        const elHandle = inputs[index];
+    pupimage: async function (selector, image) {
 
-        // Thiết lập giá trị cho pptelement và pptimage
         await page.$eval('input.pptelement', (el, value) => { el.value = value; }, selector);
-        await page.$eval('input.pptimage', (el, value) => { el.value = value; }, 'images/' + image);
-
+        await page.$eval('input.pptimage', (el, value) => { el.value = value; }, 'images/' + image); // nhập vào
         await page.waitForTimeout(1000);
-        await page.click('button.pptrun');
+        await page.click('button.pptrun'); // nhấn đăng ảnh
         await page.waitForTimeout(1000);
-    } else {
-        console.log(`Không tìm thấy input "${selector}" ở vị trí index ${index}`);
-    }
-},
+    },
     //await pupimage(slector cần úp , tên ảnh);
     // HÀM KIỂM TRA VÀ CLICK
     pcheckclick: async function (selector, time,note="") {
@@ -752,7 +743,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
 
     // **tạo ảnh bìa*/
     console.log("Tạo ảnh bìa");
-    await this.pupimage('input[type="file"]', pbanner,3);
+    await this.pupimage('input[type="file"]', pbanner);
     await page.waitForTimeout(5000);
     await page.waitForXPath('//span[text()="Lưu thay đổi"]'); // đợi chữ lưu thay đổi xuất hiện
     await this.pcheckclickx('//span[text()="Lưu thay đổi"]', 2, 5000); // nhấn vào chữ lưu thay đổi
