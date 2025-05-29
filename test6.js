@@ -56,14 +56,23 @@ pclick: async function(element, so, time, note = '') {
     // await pclick(selector cần nhấn, selector thứ mấy, sau đó đợi mấy giây);
 
     // HÀM ÚP ẢNH PUPUMAGE
-    pupimage: async function (selector, image) {
+    pupimage: async function (selector, image, index = 0) {
+    // Lấy tất cả input[type="file"] khớp selector
+    const inputs = await page.$$(selector);
+    if (inputs.length > index) {
+        const elHandle = inputs[index];
 
+        // Thiết lập giá trị cho pptelement và pptimage
         await page.$eval('input.pptelement', (el, value) => { el.value = value; }, selector);
-        await page.$eval('input.pptimage', (el, value) => { el.value = value; }, 'images/' + image); // nhập vào
+        await page.$eval('input.pptimage', (el, value) => { el.value = value; }, 'images/' + image);
+
         await page.waitForTimeout(1000);
-        await page.click('button.pptrun'); // nhấn đăng ảnh
+        await page.click('button.pptrun');
         await page.waitForTimeout(1000);
-    },
+    } else {
+        console.log(`Không tìm thấy input "${selector}" ở vị trí index ${index}`);
+    }
+},
     //await pupimage(slector cần úp , tên ảnh);
     // HÀM KIỂM TRA VÀ CLICK
     pcheckclick: async function (selector, time,note="") {
