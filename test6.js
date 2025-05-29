@@ -752,7 +752,7 @@ toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pp
 
     // **tạo ảnh bìa*/
     console.log("Tạo ảnh bìa");
-    await this.pupimage('input[type="file"]', pbanner);
+    await this.pupimage('input[type="file"]', pbanner,3);
     await page.waitForTimeout(5000);
     await page.waitForXPath('//span[text()="Lưu thay đổi"]'); // đợi chữ lưu thay đổi xuất hiện
     await this.pcheckclickx('//span[text()="Lưu thay đổi"]', 2, 5000); // nhấn vào chữ lưu thay đổi
