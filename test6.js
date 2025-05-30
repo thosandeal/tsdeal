@@ -771,8 +771,8 @@ const mfp = {
         await this.pppinput('input[aria-label="Thành phố/Thị xã"]', 1, pcity);
         await page.waitForTimeout(2000);
         await this.pcheckclick('li[aria-selected="false"][role="option"]', 1000);
-        await this.pppinput('label[aria-label="Mã ZIP"]', 1, pzip.toString());
-        await this.pppinput('label[aria-label="Khu vực"]', 1, pcity);
+        await this.pppinput(`//div[span[text()='Mã ZIP']]/input[@type='text']`, 1, pzip.toString());
+        await this.pppinput(`//div[span[text()='Khu vực']]/input[@type='text']`, 1, pcity);
         await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
         // **khu vực dịch vụ
