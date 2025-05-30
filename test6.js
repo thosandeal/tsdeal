@@ -788,7 +788,7 @@ const mfp = {
         //** thêm mail */
         console.log("Thêm mail");
         await this.pcheckclickx('//span[text()="Thêm email"]', 1, 1000);
-        await this.pppinput('label[aria-label="Email"]', 1, pmail);
+        await this.pppinput('//div[span[text()="Email"]]/input[@type="text"]', 1, pmail);
         await page.waitForTimeout(2000);
         await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
