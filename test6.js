@@ -795,7 +795,7 @@ const mfp = {
         //**Thêm một trang web*/
         console.log("Thêm web");
         await this.pcheckclickx('//span[text()="Thêm một trang web"]', 1, 1000);
-        await this.pppinput('label[aria-label="Địa chỉ trang web"]', 1, pweb);
+        await this.pppinput('//div[span[text()="Địa chỉ trang web"]]/input[@type="text"]', 1, pweb);
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
 
         //**Thêm giờ mở cửa*/
