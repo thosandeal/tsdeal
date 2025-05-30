@@ -842,7 +842,7 @@ const mfp = {
         await page.waitForTimeout(1000);
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
         //**Thêm mô tả nếu có*/
-        await this.pcheckclickx(`//span[span[span[normalize-space(text())='Thêm mô tả']]]`, 1, 3000);
+        await this.pcheckclickx('//span[text()="Thêm mô tả"] //following::span[text()="Thêm mô tả"]', 1, 3000);
         await this.pppinput(`//textarea[@placeholder='Mô tả về Trang của bạn...']`, 1, pmess);
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
         
