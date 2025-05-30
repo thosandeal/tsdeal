@@ -361,8 +361,8 @@ const mfp = {
 
     inputGoogleSheet: async function (subId1 = '', subId2 = '', subId3 = '', subId4 = '', subId5 = '', subId6 = '') {
         await page.goto('https://docs.google.com/forms/d/e/1FAIpQLScB82bM1zmvZ-h-jgENahEGk3GgfwmBicjfTZOOYJOwfn4QBw/viewform'); // vào google sheet điền thông tin
-        await page.waitForTimeout(1000);  // Đợi 3 giây
-        await page.waitForSelector('div[data-should-execute-invisible-captcha-challenge="false"] span span'); // đợi cho element xuất hiện thì thực hiện hành động tiếp theo
+        await page.waitForTimeout(3000);  // Đợi 3 giây
+        // await page.waitForSelector('div[data-should-execute-invisible-captcha-challenge="false"] span span'); // đợi cho element xuất hiện thì thực hiện hành động tiếp theo
         if (subId1) await this.pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 1, subId1);
         if (subId2) await this.pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 2, subId2);
         if (subId3) await this.pppinput('input[type="text"][autocomplete="off"][dir="auto"]', 3, subId3);
