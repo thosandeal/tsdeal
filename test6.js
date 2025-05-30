@@ -843,10 +843,12 @@ const mfp = {
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
         //**Thêm mô tả nếu có*/
         await this.pcheckclickx(`//span[span[span[normalize-space(text())='Thêm mô tả']]]`, 1, 3000);
-        await this.pppinput('//*[text()="Thêm mô tả"]', 2, pmess);
+        await this.pppinput(`//textarea[@placeholder='Mô tả về Trang của bạn...']`, 1, pmess);
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
         
-
+        //**loại bỏ số điện thoại nếu b1 không thành công */
+        await this.pcheckclickx('//span[text()="Thêm số điện thoại"] //following::span[text()="Xem thêm"]', 1, 3000);
+        await this.pcheckclickx('//span[text()="Bỏ qua và đánh dấu là hoàn tất"]', 1, 1000);
 
 
         //** EDIT MESS */
