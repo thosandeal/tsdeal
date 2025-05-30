@@ -887,7 +887,9 @@ const mfp = {
 
 
         //** Báo cáo */
+        console.log(' báo cáo star');
         await this.inputGoogleSheet(pcode, puid, puidv2, "Tối fanpage hoàn tất");
+        console.log(' báo cáo end');
 
     },
 
