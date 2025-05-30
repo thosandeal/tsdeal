@@ -841,6 +841,12 @@ const mfp = {
         await this.pppinput(`//div[span[text()='Thêm liên kết đến trang web']]/input[@type='text']`, 1, pweb);
         await page.waitForTimeout(1000);
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
+        //**Thêm mô tả nếu có*/
+        await this.pcheckclickx(`//span[span[span[normalize-space(text())='Thêm mô tả']]]`, 1, 3000);
+        await this.pppinput(`//textarea[@placeholder='Mô tả về Trang của bạn...']`, 1, pmess);
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
+        
+
 
 
         //** EDIT MESS */
