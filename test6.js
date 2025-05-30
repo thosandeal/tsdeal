@@ -838,7 +838,7 @@ const mfp = {
         await this.pcheckclickx('//span[text()="Tìm hiểu thêm"] //following::span[text()="Mở một trang web"]', 1, 3000);
         await this.pcheckclickx('//span[text()="Tiếp"]', 1, 3000); // lưu 
         await this.pcheckclickx('//span[text()="Thêm liên kết đến trang web"]', 1, 1000);
-        await this.pppinput('label[aria-label="Thêm liên kết đến trang web"]', 1, pweb);
+        await this.pppinput(`//div[span[text()='Thêm liên kết đến trang web']]/input[@type='text']`, 1, pweb);
         await page.waitForTimeout(1000);
         await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
 
