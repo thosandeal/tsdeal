@@ -1,16 +1,26 @@
 // HÀM INPUT NỘI DUNG VÀO Ô
 const mfp = {
-    pppinput: async function (selector, number, text) {
+    pppinput: async function (locator, number, text) {
         const numberx = number - 1;
-        const elements = await page.$$(selector); // Lấy danh sách phần tử theo selector
+        let elements;
+
+        // Kiểm tra xem có phải XPath không (bắt đầu bằng '/' hoặc '//')
+        const isXPath = locator.trim().startsWith('/') || locator.trim().startsWith('//');
+
+        if (isXPath) {
+            elements = await page.$x(locator);
+        } else {
+            elements = await page.$$(locator);
+        }
+
         if (elements.length > numberx) {
             const elementHandle = elements[numberx];
-            await page.evaluate((el) => el.value = '', elementHandle); // làm trống ô nhập liệu trước khi điền
+            await page.evaluate(el => el.value = '', elementHandle); // Clear value
             await elementHandle.click();
-            await page.keyboard.sendCharacter(text); // nhập nội dung
-            console.log(`Đã nhập nội dung vào ${selector} thứ ${numberx}`);
+            await page.keyboard.sendCharacter(text);
+            console.log(`Đã nhập nội dung vào ${isXPath ? 'XPath' : 'locator'}: ${locator} - phần tử thứ ${number}`);
         } else {
-            console.log(`Không tìm thấy ${selector} thứ ${numberx}`);
+            console.log(`Không tìm thấy phần tử thứ ${number} với ${isXPath ? 'XPath' : 'locator'}: ${locator}`);
         }
 
     },
@@ -39,18 +49,18 @@ const mfp = {
         await page.keyboard.sendCharacter(text);    // Nhập vào nội dung mới
     },
     //HÀM CLICK VÀO SELECTOR 
-pclick: async function(element, so, time, note = '') {
+    pclick: async function (element, so, time, note = '') {
 
-    const ele = await page.$$(element);
-    const ok = so - 1; // đã trừ đi 1
-    if (ele[ok]) {
-        await ele[ok].click();
-        console.log(`${note}  > "${element}" số ${so} > Đã click.`);
-    } else {
-        console.log(`${note}  > "${element}" số ${so} > Không tồn tại.`);
-    }
-    await page.waitForTimeout(time);
-},
+        const ele = await page.$$(element);
+        const ok = so - 1; // đã trừ đi 1
+        if (ele[ok]) {
+            await ele[ok].click();
+            console.log(`${note}  > "${element}" số ${so} > Đã click.`);
+        } else {
+            console.log(`${note}  > "${element}" số ${so} > Không tồn tại.`);
+        }
+        await page.waitForTimeout(time);
+    },
 
     //await pclick('div[aria-posinset="1"][role="article"] span[dir="auto"] span span span a[role="link"][tabindex="0"]',2);
     // await pclick(selector cần nhấn, selector thứ mấy, sau đó đợi mấy giây);
@@ -66,8 +76,8 @@ pclick: async function(element, so, time, note = '') {
     },
     //await pupimage(slector cần úp , tên ảnh);
     // HÀM KIỂM TRA VÀ CLICK
-    pcheckclick: async function (selector, time,note="") {
-        if(note) console.log(note);
+    pcheckclick: async function (selector, time, note = "") {
+        if (note) console.log(note);
         const elementHandle = await page.$(selector);
         if (elementHandle !== null) {
             await elementHandle.click();
@@ -98,8 +108,8 @@ pclick: async function(element, so, time, note = '') {
 
 
     // HÀM CHECK XPATH CLICK
-    pcheckclickx: async function (xpath, number, time,note="") {
-        if(note) console.log(note);
+    pcheckclickx: async function (xpath, number, time, note = "") {
+        if (note) console.log(note);
         const elements = await page.$x(xpath);  // Tìm tất cả các phần tử khớp với XPath
         // Kiểm tra xem phần tử thứ 'number' có tồn tại hay không
         const numberx = number - 1;
@@ -128,12 +138,12 @@ pclick: async function(element, so, time, note = '') {
                 console.log('bạn đã là admin'); // thông báo làm admin 
                 await page.waitForTimeout(2000);
                 //ĐÓNG POPUP v2
-            console.log("Kiểm tra lại sau khi là admin còn popup nào không");
-            await this.pcheckclick('div[aria-label="Đóng"]', 1000) // tắt thông báo Dùng thửF
-            await this.pcheckclickx('//span[text()="Tiếp"]', 2, 2000);
-            await this.pcheckclickx('//span[text()="Chấp nhận"]', 2, 2000);
-            await this.pcheckclickx('//span[text()="Cho phép tất cả cookie"]', 1, 2000);
-            await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
+                console.log("Kiểm tra lại sau khi là admin còn popup nào không");
+                await this.pcheckclick('div[aria-label="Đóng"]', 1000) // tắt thông báo Dùng thửF
+                await this.pcheckclickx('//span[text()="Tiếp"]', 2, 2000);
+                await this.pcheckclickx('//span[text()="Chấp nhận"]', 2, 2000);
+                await this.pcheckclickx('//span[text()="Cho phép tất cả cookie"]', 1, 2000);
+                await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
                 break; // hoàn thành và thoát khỏi vòng lặp
             } else {
                 //ĐÓNG POPUP v1
@@ -159,7 +169,7 @@ pclick: async function(element, so, time, note = '') {
                 await this.pcheckclickx('//span[text()="Dùng Trang"]', 1, 5000);
 
             }
-            
+
 
         }
 
@@ -310,10 +320,10 @@ pclick: async function(element, so, time, note = '') {
         const currentUrl = page.url(); // lấy link url hiện tại
         const newUrl = currentUrl + '/edit';
         await page.goto(newUrl); // đến trang chỉnh sửa để tối ưu gr
-        
+
 
         // nhấn vào nút đợi slector xuất hiện thì edit
-        
+
         console.log("đã vào phần edit group");
         await page.waitForTimeout(10000);
         // await page.waitForXPath('//span[contains(text(), "Quản lý cài đặt nâng cao")]');    //đợi cho XPath xuất hiện
@@ -326,10 +336,10 @@ pclick: async function(element, so, time, note = '') {
         await this.pcheckclickx('//span //span[text() = "Bật"]', 1, 1000); // nhấn nút lưu vị trí
         await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
         await page.waitForTimeout(3000);
-        
+
         // chỉnh sửa vị trí nhóm, kiểm tra có vị trí thì mới thực hiện
         console.log("chỉnh sửa vị trí nhóm");
-            if (pvitri) {
+        if (pvitri) {
             await page.click('div[aria-label="Chỉnh sửa vị trí"]'); // nhấn voà chỉnh sửa vị trí
             await page.waitForTimeout(1000); // đợi 1s để hiện bảng
             await page.type('label[aria-label="Vị trí nhóm"]', pvitri); // nhập vị trí
@@ -337,7 +347,7 @@ pclick: async function(element, so, time, note = '') {
             await page.click('li[aria-selected="false"][role="option"]'); // chọn li đầu tiên làm vị trí
             await page.waitForTimeout(2000); // đợi 2s để xác nhận
             await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
-            }
+        }
         // sửa đối tượng tham gia nhóm
         await page.click('div[aria-label="Chỉnh sửa ai có thể tham gia nhóm"]');// nhấn vào nút "cài đặt tham gia nhóm"
         await page.waitForTimeout(1000); // đợi 1s để hiện tuỳ chỉnh
@@ -373,16 +383,16 @@ pclick: async function(element, so, time, note = '') {
         return hasText;
     },
 
-taoGrFb:async function(pcode, puid, pname, pvitri, pbanner) {
-    //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
-    await this.gofanpage(puid); // làm admin fanpage
-    await this.taogr(pname, pvitri, pbanner); // tạo page vị trí
-    const groupId = (await page.url()).split('/groups/')[1].split('/')[0]; // lấy group id
-    await this.inputGoogleSheet(pcode, puid, groupId, pname, "tao gr"); // nhập id
+    taoGrFb: async function (pcode, puid, pname, pvitri, pbanner) {
+        //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
+        await this.gofanpage(puid); // làm admin fanpage
+        await this.taogr(pname, pvitri, pbanner); // tạo page vị trí
+        const groupId = (await page.url()).split('/groups/')[1].split('/')[0]; // lấy group id
+        await this.inputGoogleSheet(pcode, puid, groupId, pname, "tao gr"); // nhập id
 
-},
+    },
 
-    
+
     // chọn nick chính
     chonNickChinh: async function () {
         while (true) {
@@ -651,7 +661,7 @@ taoGrFb:async function(pcode, puid, pname, pvitri, pbanner) {
 
 
     },
-    convertData: function(inputText) {
+    convertData: function (inputText) {
         // Tách nội dung từ inputText
         const inputData = inputText.trim().split('\n').map(line => line.split('//##//'));
 
@@ -668,309 +678,309 @@ taoGrFb:async function(pcode, puid, pname, pvitri, pbanner) {
 
         return data;
     },
-   postPageGroup: async function(pcode, puid, puidgr, ppost, pimage, pvitri) {
-    //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
-    await this.gofanpage(puid); // làm admin fanpage
-     console.log('lỗi 333');
-    await this.ppostpage(ppost, pimage, pvitri);
-         console.log('lỗi 444');
+    postPageGroup: async function (pcode, puid, puidgr, ppost, pimage, pvitri) {
+        //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
+        await this.gofanpage(puid); // làm admin fanpage
+        console.log('lỗi 333');
+        await this.ppostpage(ppost, pimage, pvitri);
+        console.log('lỗi 444');
 
-    const urlpostpage = await page.url(); // lấy link post hiện tại
-    await this.gogroup(puidgr);
-    await this.ppostgroup(ppost, pimage, pvitri);
-    const urlpostgroup = await page.url(); // lấy link post hiện tại
-    await this.inputGoogleSheet(pcode, puid, puidgr, urlpostpage, urlpostgroup, "đăng page group"); // nhập id
+        const urlpostpage = await page.url(); // lấy link post hiện tại
+        await this.gogroup(puidgr);
+        await this.ppostgroup(ppost, pimage, pvitri);
+        const urlpostgroup = await page.url(); // lấy link post hiện tại
+        await this.inputGoogleSheet(pcode, puid, puidgr, urlpostpage, urlpostgroup, "đăng page group"); // nhập id
 
-},
-    runpostPageGroup: async function(start, data) {
-    let startIndex = 0;
+    },
+    runpostPageGroup: async function (start, data) {
+        let startIndex = 0;
 
-    if (typeof start === 'number') {
-        startIndex = Math.max(0, start - 1);
-    } else if (start === undefined || start === '') {
-        startIndex = 0;
-    } else if (typeof start === 'string') {
-        startIndex = data.pcode.indexOf(start);
-        if (startIndex === -1) {
+        if (typeof start === 'number') {
+            startIndex = Math.max(0, start - 1);
+        } else if (start === undefined || start === '') {
             startIndex = 0;
-        }
-    }
-console.log(`Vòng lặp thứ ${startIndex + 1} với post ${data.pcode[startIndex]}`);
-    for (let i = startIndex; i < data.pcode.length; i++) {
-        let errorOccurred;
-        do {
-            errorOccurred = false;
-            try {
-                await this.postPageGroup(data.pcode[i], data.puid[i], data.puidgr[i], data.ppost[i], data.pimage[i], data.pvitri[i]);
-                console.log('Vòng lặp đang tiếp tục');
-            } catch (error) {
-                if (error.message === 'A') {
-                    errorOccurred = true;
-                    console.log('Gặp lỗi "A", thử lại...');
-                } else {
-                    await page.evaluate(() => {
-                        window.onbeforeunload = null;
-                    });
-                }
+        } else if (typeof start === 'string') {
+            startIndex = data.pcode.indexOf(start);
+            if (startIndex === -1) {
+                startIndex = 0;
             }
-        } while (errorOccurred);
-    }
-},
+        }
+        console.log(`Vòng lặp thứ ${startIndex + 1} với post ${data.pcode[startIndex]}`);
+        for (let i = startIndex; i < data.pcode.length; i++) {
+            let errorOccurred;
+            do {
+                errorOccurred = false;
+                try {
+                    await this.postPageGroup(data.pcode[i], data.puid[i], data.puidgr[i], data.ppost[i], data.pimage[i], data.pvitri[i]);
+                    console.log('Vòng lặp đang tiếp tục');
+                } catch (error) {
+                    if (error.message === 'A') {
+                        errorOccurred = true;
+                        console.log('Gặp lỗi "A", thử lại...');
+                    } else {
+                        await page.evaluate(() => {
+                            window.onbeforeunload = null;
+                        });
+                    }
+                }
+            } while (errorOccurred);
+        }
+    },
     goVanBan: async function (selector, text) {
-    const spans = await page.$$(selector);
+        const spans = await page.$$(selector);
 
-    for (let span of spans) {
-        // Bôi đen nội dung hiện tại trong span
-        await span.click({ clickCount: 3 }); // Click 3 lần để bôi đen toàn bộ nội dung
+        for (let span of spans) {
+            // Bôi đen nội dung hiện tại trong span
+            await span.click({ clickCount: 3 }); // Click 3 lần để bôi đen toàn bộ nội dung
 
-        // Nhập vào 'đây là văn bản mới' với tốc độ nhanh nhất
-        await page.keyboard.type(text, { delay: 0 });
-    }
-},
-toiUuPage:async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pphonev1, pphonev2, pmail, pweb, pmess) {
+            // Nhập vào 'đây là văn bản mới' với tốc độ nhanh nhất
+            await page.keyboard.type(text, { delay: 0 });
+        }
+    },
+    toiUuPage: async function (pcode, puid, pavatar, pbanner, pcity, pzip, pvitri, pphonev1, pphonev2, pmail, pweb, pmess) {
 
-    //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
-    await this.gofanpage(puid); // làm admin fanpage
+        //>> CHỌN PAGE ĐĂNG BÀI CHUYỂN HƯỚNG BÀI VIẾT
+        await this.gofanpage(puid); // làm admin fanpage
 
-    //**ẢNH BÌA VÀ AVATAR */
+        //**ẢNH BÌA VÀ AVATAR */
 
-    //**tạo avatar */
-    await this.pcheckclickx('//div[@aria-label="Cập nhật ảnh đại diện"]', 1, 1000,"Tạo avatar");
-    await this.pupimage('div[aria-label="Chọn ảnh đại diện"] input[type="file"]', pavatar);
-    await page.waitForTimeout(5000);
-    await page.waitForXPath('//span[text()="Lưu"]'); // đợi chữ lưu thay đổi xuất hiện
-    await this.pcheckclickx('//span[text()="Lưu"]', 1, 5000); // Lưu
+        //**tạo avatar */
+        await this.pcheckclickx('//div[@aria-label="Cập nhật ảnh đại diện"]', 1, 1000, "Tạo avatar");
+        await this.pupimage('div[aria-label="Chọn ảnh đại diện"] input[type="file"]', pavatar);
+        await page.waitForTimeout(5000);
+        await page.waitForXPath('//span[text()="Lưu"]'); // đợi chữ lưu thay đổi xuất hiện
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 5000); // Lưu
 
-    // **tạo ảnh bìa*/
-    console.log("Tạo ảnh bìa");
-    await this.pupimage('input[accept="image/*,image/heif,image/heic"][type="file"]', pbanner);
-    await page.waitForTimeout(5000);
-    await page.waitForXPath('//span[text()="Lưu thay đổi"]'); // đợi chữ lưu thay đổi xuất hiện
-    await this.pcheckclickx('//span[text()="Lưu thay đổi"]', 2, 5000); // nhấn vào chữ lưu thay đổi
+        // **tạo ảnh bìa*/
+        console.log("Tạo ảnh bìa");
+        await this.pupimage('input[accept="image/*,image/heif,image/heic"][type="file"]', pbanner);
+        await page.waitForTimeout(5000);
+        await page.waitForXPath('//span[text()="Lưu thay đổi"]'); // đợi chữ lưu thay đổi xuất hiện
+        await this.pcheckclickx('//span[text()="Lưu thay đổi"]', 2, 5000); // nhấn vào chữ lưu thay đổi
 
-    //** SỬA PHẦN 1 */
-    console.log("Vào editor");
-    await page.goto('https://www.facebook.com/profile.php?id=' + puid + '&sk=about_contact_and_basic_info');
-    await page.waitForTimeout(5000);
+        //** SỬA PHẦN 1 */
+        console.log("Vào editor");
+        await page.goto('https://www.facebook.com/profile.php?id=' + puid + '&sk=about_contact_and_basic_info');
+        await page.waitForTimeout(5000);
 
-    // tắt thông báo
-    await this.pcheckclick('div[aria-label="Dùng Trang"]',3000,"Tắt thông báo Dùng Trang nếu có");
-    // **sửa địa chỉ pcity
-    console.log("sửa địa chỉ");
-    await this.pcheckclickx('//span[text()="Thêm địa chỉ của bạn"]', 1, 1000);
-    await this.pppinput('input[aria-label="Thành phố/Thị xã"]', 1, pcity);
-    await page.waitForTimeout(2000);
-    await this.pcheckclick('li[aria-selected="false"][role="option"]', 1000);
-    await this.pppinput('label[aria-label="Mã ZIP"]', 1, pzip.toString());
-    await this.pppinput('label[aria-label="Khu vực"]', 1, pcity);
-    await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
-
-    // **khu vực dịch vụ
-    console.log("khu vực dịch vụ");
-    await this.pcheckclickx('//span[text()="Thêm khu vực dịch vụ"]', 1, 1000);
-    for (let i = 0; i < 3; i++) {
-        await this.pppinput('input[aria-label="Khu vực dịch vụ"]', 1, pvitri);
+        // tắt thông báo
+        await this.pcheckclick('div[aria-label="Dùng Trang"]', 3000, "Tắt thông báo Dùng Trang nếu có");
+        // **sửa địa chỉ pcity
+        console.log("sửa địa chỉ");
+        await this.pcheckclickx('//span[text()="Thêm địa chỉ của bạn"]', 1, 1000);
+        await this.pppinput('input[aria-label="Thành phố/Thị xã"]', 1, pcity);
         await page.waitForTimeout(2000);
         await this.pcheckclick('li[aria-selected="false"][role="option"]', 1000);
-    }
-    await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
+        await this.pppinput('label[aria-label="Mã ZIP"]', 1, pzip.toString());
+        await this.pppinput('label[aria-label="Khu vực"]', 1, pcity);
+        await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
-    //** thêm mail */
-    console.log("Thêm mail");
-    await this.pcheckclickx('//span[text()="Thêm email"]', 1, 1000);
-    await this.pppinput('label[aria-label="Email"]', 1, pmail);
-    await page.waitForTimeout(2000);
-    await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
-
-    //**Thêm một trang web*/
-    console.log("Thêm web");
-    await this.pcheckclickx('//span[text()="Thêm một trang web"]', 1, 1000);
-    await this.pppinput('label[aria-label="Địa chỉ trang web"]', 1, pweb);
-    await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
-
-    //**Thêm giờ mở cửa*/
-    console.log("Thêm giờ mở cửa");
-    await this.pcheckclickx('//span[text()="Thêm giờ mở cửa"]', 1, 1000);
-    await this.pcheckclickx('//span[text()="Luôn mở cửa"]', 1, 1000);
-    await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
-
-    // **Thêm khoảng giá*/
-    console.log("Thêm khoảng giá");
-    await this.pcheckclickx('//span[text()="Thêm khoảng giá"]', 1, 1000);
-    await this.pcheckclickx('//input[@aria-checked="false"]', 1, 1000);
-    await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
-
-    //**Thêm số điện thoại*/
-    console.log("Thêm số điện thoại");
-    await this.pcheckclickx('//span[text()="Thêm số điện thoại"]', 1, 1000);
-    await this.pcheckclickx('//div[@aria-expanded="false"][@role="button"] [@aria-haspopup="menu"] //div //span', 1, 1000);
-    await this.pppinput('input[aria-invalid="false"][aria-label="Tìm kiếm"]', 1, pphonev1.toString());
-    await this.pcheckclickx('//div[@aria-checked="false"][@role="menuitemradio"]', 1, 1000);
-    await this.pppinput('label[aria-label="Số điện thoại"]', 1, pphonev2.toString());
-    await page.waitForTimeout(2000);
-    await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
-
-
-    //** SỬA PHẦN 2 */
-    await page.goto('https://www.facebook.com/' + puid + '/page_completion_meter/?ref=comet_profile_plus_self_view');
-    await page.waitForTimeout(5000);
-    //**Whatsapp */
-    await this.pcheckclickx('//span[text()="Liên kết WhatsApp"] //following::span[text()="Xem thêm"]', 1, 3000);
-    await this.pcheckclickx('//span[text()="Thông tin này không áp dụng cho Trang của tôi"]', 1, 1000);
-
-    //**Mời bạn bè */
-    await this.pcheckclickx('//span[text()="Mời bạn bè"] //following::span[text()="Xem thêm"]', 1, 3000);
-    await this.pcheckclickx('//span[text()="Bỏ qua và đánh dấu là hoàn tất"]', 1, 1000);
-
-    //**Thêm nút hành động */
-    await this.pcheckclickx('//span[text()="Thêm nút hành động"] //following::span[text()="Thêm nút"]', 1, 3000);
-    await this.pcheckclickx('//span[text()="Dùng thử"]', 1, 1000);
-    await this.pcheckclickx('//span[text()="Tìm hiểu thêm"] //following::span[text()="Mở một trang web"]', 1, 3000);
-    await this.pcheckclickx('//span[text()="Tiếp"]', 1, 3000); // lưu 
-    await this.pcheckclickx('//span[text()="Thêm liên kết đến trang web"]', 1, 1000);
-    await this.pppinput('label[aria-label="Thêm liên kết đến trang web"]', 1, pweb);
-    await page.waitForTimeout(1000);
-    await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
-
-
-    //** EDIT MESS */
-
-    // Lấy uid fanpage 
-    const puidv2 = await page.evaluate(() => {
-        let regex = /"PAGE_MESSAGING_MAILBOX_ID":"(\d+)"/;
-        let matches = document.body.innerHTML.match(regex);
-        return matches ? matches[1] : 'not found';
-    });
-
-    const pmessok = await this.spinText(pmess);
-    for (let i = 0; i < 3; i++) {
-        await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
-        await page.waitForTimeout(10000);
-        const checktl = await page.$x('//div[text()="Tin trả lời nhanh"]');
-        if (checktl.length > 0) {
-            console.log('Đã hiện bảng seting mess');
-            break;
-        } else {
-            console.log('không tồn tải phải load lại');
+        // **khu vực dịch vụ
+        console.log("khu vực dịch vụ");
+        await this.pcheckclickx('//span[text()="Thêm khu vực dịch vụ"]', 1, 1000);
+        for (let i = 0; i < 3; i++) {
+            await this.pppinput('input[aria-label="Khu vực dịch vụ"]', 1, pvitri);
+            await page.waitForTimeout(2000);
+            await this.pcheckclick('li[aria-selected="false"][role="option"]', 1000);
         }
-    }
+        await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
 
-    try {
-        console.log('tiền hành edit mess');
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 4000);
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 4000);
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 4000);
-    
-        // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
-        await this.goVanBan('span[data-text="true"]', pmessok);
-        await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
-        // vào kiểm tra lại coi đã bật chưa thì bật lại tiếp
-        await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
-        await page.waitForTimeout(7000);
-        await this.goVanBan('span[data-text="true"]', pmessok);
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
-        
-    }
-    catch (e) {
-        console.log('lỗi cc');
-    }
+        //** thêm mail */
+        console.log("Thêm mail");
+        await this.pcheckclickx('//span[text()="Thêm email"]', 1, 1000);
+        await this.pppinput('label[aria-label="Email"]', 1, pmail);
+        await page.waitForTimeout(2000);
+        await this.pcheckclickx('//span [text()="Lưu"]', 1, 3000); // lưu 
+
+        //**Thêm một trang web*/
+        console.log("Thêm web");
+        await this.pcheckclickx('//span[text()="Thêm một trang web"]', 1, 1000);
+        await this.pppinput('label[aria-label="Địa chỉ trang web"]', 1, pweb);
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
+
+        //**Thêm giờ mở cửa*/
+        console.log("Thêm giờ mở cửa");
+        await this.pcheckclickx('//span[text()="Thêm giờ mở cửa"]', 1, 1000);
+        await this.pcheckclickx('//span[text()="Luôn mở cửa"]', 1, 1000);
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
+
+        // **Thêm khoảng giá*/
+        console.log("Thêm khoảng giá");
+        await this.pcheckclickx('//span[text()="Thêm khoảng giá"]', 1, 1000);
+        await this.pcheckclickx('//input[@aria-checked="false"]', 1, 1000);
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
+
+        //**Thêm số điện thoại*/
+        console.log("Thêm số điện thoại");
+        await this.pcheckclickx('//span[text()="Thêm số điện thoại"]', 1, 1000);
+        await this.pcheckclickx('//div[@aria-expanded="false"][@role="button"] [@aria-haspopup="menu"] //div //span', 1, 1000);
+        await this.pppinput('input[aria-invalid="false"][aria-label="Tìm kiếm"]', 1, pphonev1.toString());
+        await this.pcheckclickx('//div[@aria-checked="false"][@role="menuitemradio"]', 1, 1000);
+        await this.pppinput('label[aria-label="Số điện thoại"]', 1, pphonev2.toString());
+        await page.waitForTimeout(2000);
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
 
 
-    //** Báo cáo */
-    await this.inputGoogleSheet(pcode, puid,puidv2,"Tối fanpage hoàn tất");
+        //** SỬA PHẦN 2 */
+        await page.goto('https://www.facebook.com/' + puid + '/page_completion_meter/?ref=comet_profile_plus_self_view');
+        await page.waitForTimeout(5000);
+        //**Whatsapp */
+        await this.pcheckclickx('//span[text()="Liên kết WhatsApp"] //following::span[text()="Xem thêm"]', 1, 3000);
+        await this.pcheckclickx('//span[text()="Thông tin này không áp dụng cho Trang của tôi"]', 1, 1000);
 
-},
-   
-    
-runToiUuPage:async function(data) {
-    for (let i = 0; i < data.pcode.length; i++) {
-        let errorOccurred;
-        // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
-        do {
-            errorOccurred = false;
-            try {
-                await this.toiUuPage(data.pcode[i], data.puid[i], data.pavatar[i], data.pbanner[i], data.pcity[i], data.pzip[i], data.pvitri[i], data.pphonev1[i], data.pphonev2[i], data.pmail[i], data.pweb[i], data.pmess[i]);
-                // (pcode,puid,pname,pvitri,pbanne)
-                console.log('vòng lặp đang tiếp theo');
-            } catch (error) {
-                if (error.message === 'A') {
-                    errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
-                    console.log('Gặp lỗi "A", thử lại...');
-                } else {
-                    await page.evaluate(() => {
-                        window.onbeforeunload = null;
-                    });
-                }
+        //**Mời bạn bè */
+        await this.pcheckclickx('//span[text()="Mời bạn bè"] //following::span[text()="Xem thêm"]', 1, 3000);
+        await this.pcheckclickx('//span[text()="Bỏ qua và đánh dấu là hoàn tất"]', 1, 1000);
+
+        //**Thêm nút hành động */
+        await this.pcheckclickx('//span[text()="Thêm nút hành động"] //following::span[text()="Thêm nút"]', 1, 3000);
+        await this.pcheckclickx('//span[text()="Dùng thử"]', 1, 1000);
+        await this.pcheckclickx('//span[text()="Tìm hiểu thêm"] //following::span[text()="Mở một trang web"]', 1, 3000);
+        await this.pcheckclickx('//span[text()="Tiếp"]', 1, 3000); // lưu 
+        await this.pcheckclickx('//span[text()="Thêm liên kết đến trang web"]', 1, 1000);
+        await this.pppinput('label[aria-label="Thêm liên kết đến trang web"]', 1, pweb);
+        await page.waitForTimeout(1000);
+        await this.pcheckclickx('//span[text()="Lưu"]', 1, 3000); // lưu 
+
+
+        //** EDIT MESS */
+
+        // Lấy uid fanpage 
+        const puidv2 = await page.evaluate(() => {
+            let regex = /"PAGE_MESSAGING_MAILBOX_ID":"(\d+)"/;
+            let matches = document.body.innerHTML.match(regex);
+            return matches ? matches[1] : 'not found';
+        });
+
+        const pmessok = await this.spinText(pmess);
+        for (let i = 0; i < 3; i++) {
+            await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
+            await page.waitForTimeout(10000);
+            const checktl = await page.$x('//div[text()="Tin trả lời nhanh"]');
+            if (checktl.length > 0) {
+                console.log('Đã hiện bảng seting mess');
+                break;
+            } else {
+                console.log('không tồn tải phải load lại');
             }
-        } while (errorOccurred);
-    }
-},
-     runTaoGrFb: async function(data) {
-    for (let i = 0; i < data.pcode.length; i++) {
-        let errorOccurred;
-        // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
-        do {
-            errorOccurred = false;
-            try {
-                await this.taoGrFb(data.pcode[i], data.puid[i], data.pname[i], data.pvitri[i], data.pbanner[i]);
-                // (pcode,puid,pname,pvitri,pbanne)
-                console.log('vòng lặp đang tiếp theo');
-            } catch (error) {
-                if (error.message === 'A') {
-                    errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
-                    console.log('Gặp lỗi "A", thử lại...');
-                } else {
-                    await page.evaluate(() => {
-                        window.onbeforeunload = null;
-                    });
+        }
+
+        try {
+            console.log('tiền hành edit mess');
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 4000);
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 4000);
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 4000);
+
+            // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
+            await this.goVanBan('span[data-text="true"]', pmessok);
+            await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
+            // vào kiểm tra lại coi đã bật chưa thì bật lại tiếp
+            await page.goto('https://business.facebook.com/latest/inbox/automated_responses?asset_id=' + puidv2 + '&automation_template=instant_reply&partnership_messages=false&launch_onboarding=false&auto_open_saved_replies=false&auto_open_order_tip=false');
+            await page.waitForTimeout(7000);
+            await this.goVanBan('span[data-text="true"]', pmessok);
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+
+        }
+        catch (e) {
+            console.log('lỗi cc');
+        }
+
+
+        //** Báo cáo */
+        await this.inputGoogleSheet(pcode, puid, puidv2, "Tối fanpage hoàn tất");
+
+    },
+
+
+    runToiUuPage: async function (data) {
+        for (let i = 0; i < data.pcode.length; i++) {
+            let errorOccurred;
+            // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
+            do {
+                errorOccurred = false;
+                try {
+                    await this.toiUuPage(data.pcode[i], data.puid[i], data.pavatar[i], data.pbanner[i], data.pcity[i], data.pzip[i], data.pvitri[i], data.pphonev1[i], data.pphonev2[i], data.pmail[i], data.pweb[i], data.pmess[i]);
+                    // (pcode,puid,pname,pvitri,pbanne)
+                    console.log('vòng lặp đang tiếp theo');
+                } catch (error) {
+                    if (error.message === 'A') {
+                        errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
+                        console.log('Gặp lỗi "A", thử lại...');
+                    } else {
+                        await page.evaluate(() => {
+                            window.onbeforeunload = null;
+                        });
+                    }
                 }
-            }
-        } while (errorOccurred);
-    }
-},
+            } while (errorOccurred);
+        }
+    },
+    runTaoGrFb: async function (data) {
+        for (let i = 0; i < data.pcode.length; i++) {
+            let errorOccurred;
+            // sưqr dụng vòng lặp do while thực hiện câu lệnh ít nhất một lần trước khi kết thúc , nếu sảy ra lỗi thì trả về true để lặp lại
+            do {
+                errorOccurred = false;
+                try {
+                    await this.taoGrFb(data.pcode[i], data.puid[i], data.pname[i], data.pvitri[i], data.pbanner[i]);
+                    // (pcode,puid,pname,pvitri,pbanne)
+                    console.log('vòng lặp đang tiếp theo');
+                } catch (error) {
+                    if (error.message === 'A') {
+                        errorOccurred = true; // nếu true thì nó sẽ lặp lại , nếu false thì nó kết thúc
+                        console.log('Gặp lỗi "A", thử lại...');
+                    } else {
+                        await page.evaluate(() => {
+                            window.onbeforeunload = null;
+                        });
+                    }
+                }
+            } while (errorOccurred);
+        }
+    },
 
-// START :NHỮNG FUNTION NHỎ ĐỂ TEST TỪNG CÁI MỘT
-test1da: async function () {
-    try {
-        console.log('tiền hành edit mess');
-        await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+    // START :NHỮNG FUNTION NHỎ ĐỂ TEST TỪNG CÁI MỘT
+    test1da: async function () {
+        try {
+            console.log('tiền hành edit mess');
+            await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
 
-        // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
-        // await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
-        await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
-    }
-    catch (e) {
-        console.log('lỗi cc');
-    }
-},
+            // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
+            // await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
+            await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
+        }
+        catch (e) {
+            console.log('lỗi cc');
+        }
+    },
     test2: async function () {
-    try {
-        console.log('tiền hành edit mess');
-        await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
-        await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+        try {
+            console.log('tiền hành edit mess');
+            await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
+            await this.pcheckclickx('//input[@aria-checked="false"][@aria-label="Đang tắt"]', 1, 2000);
 
-        // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
-        // await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
-        await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
-    }
-    catch (e) {
-        console.log('lỗi cc');
-    }
-},
-// END :NHỮNG FUNTION NHỎ ĐỂ TEST TỪNG CÁI MỘT
+            // await this.pcheckclickx('//input[@aria-disabled="false"][@aria-label="Tắt"]', 1, 1000);
+            // await this.goVanBan('span[data-text="true"]', ' nội dung pesst cần điền là pmess');
+            await this.pcheckclickx('//div[text()="Lưu thay đổi"]', 1, 3000);
+        }
+        catch (e) {
+            console.log('lỗi cc');
+        }
+    },
+    // END :NHỮNG FUNTION NHỎ ĐỂ TEST TỪNG CÁI MỘT
 }
 globalThis.mfp = mfp;
 
 
-// SỬ DỤNG PUPETEER 
+// SỬ DỤNG PUPETEER
 // //**NHẬP DATA */
 // const inputText = `
 // pcode//##//puid//##//geo name//##//pavatar//##//pbanner//##//pvitri//##//pcity//##//pzip//##//pphonev1//##//pphonev2//##//pmail//##//pweb//##//pmess
 // topbimo-mx//##//61566083120579//##//Mexico//##//mx-avatar.jpg//##//mx-banner.jpg//##//Mexico//##//Mexico City//##//1000//##//52//##//8999999999//##//topbimo@gmail.com//##//https://topbimo.com//##//¡Hola! Por favor, visita este sitio web para obtener el mejor soporte 𝗧𝗼𝗽𝗕𝗶𝗺𝗼.𝗖𝗼𝗺
-// topbimo-us//##//61566123890137//##//United States//##//us-avatar.jpg//##//us-banner.jpg//##//United States//##//Washington, D.C.//##//20001//##//hoa 
+// topbimo-us//##//61566123890137//##//United States//##//us-avatar.jpg//##//us-banner.jpg//##//United States//##//Washington, D.C.//##//20001//##//hoa
 // `;
 
 // const response = await fetch('https://raw.githubusercontent.com/thosandeal/tsdeal/main/test6.js');
@@ -979,11 +989,11 @@ globalThis.mfp = mfp;
 // // Hiển thị giá trị đầu tiên của mảng pcode
 // const data = mfp.convertData(inputText);
 
-// // ███████    ████████     █████     ██████     ████████ 
-// // ██            ██       ██   ██    ██   ██       ██    
-// // ███████       ██       ███████    ██████        ██    
-// //      ██       ██       ██   ██    ██   ██       ██    
-// // ███████       ██       ██   ██    ██   ██       ██    
+// // ███████    ████████     █████     ██████     ████████
+// // ██            ██       ██   ██    ██   ██       ██
+// // ███████       ██       ███████    ██████        ██
+// //      ██       ██       ██   ██    ██   ██       ██
+// // ███████       ██       ██   ██    ██   ██       ██
 
 
 // await mfp.runToiUuPage(data);
