@@ -331,10 +331,11 @@ const mfp = {
 
         // click chỉnh sửa quyền đăng bài
         console.log("chỉnh quyền đăng bài");
-        await page.click('div[aria-label="Chỉnh sửa cách phê duyệt bài viết"]');
+        await this.pcheckclickx('//span[text()="Phê duyệt bài viết"]/following::div[@role="button"][1]', 1, 1000); // nhấn nút lưu vị trí
         await page.waitForTimeout(1000); // đợi 1s để hiển thị bảng tuỳ chỉnh
-        await this.pcheckclickx('//span //span[text() = "Bật"]', 1, 1000); // nhấn nút lưu vị trí
+        await this.pcheckclickx('//span[text()="Tất cả bài viết"]/ancestor::div[1]', 1, 1000); // nhấn nút lưu vị trí
         await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
+        await this.pcheckclickx('//span[text() = "Lưu"]', 1, 1000); // nhấn nút lưu vị trí
         await page.waitForTimeout(3000);
 
         // chỉnh sửa vị trí nhóm, kiểm tra có vị trí thì mới thực hiện
