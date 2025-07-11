@@ -343,7 +343,7 @@ const mfp = {
         if (pvitri) {
             await page.click('div[aria-label="Chỉnh sửa vị trí"]'); // nhấn voà chỉnh sửa vị trí
             await page.waitForTimeout(1000); // đợi 1s để hiện bảng
-            await page.type('label[aria-label="Vị trí nhóm"]', pvitri); // nhập vị trí
+            await page.type('input[type="search"][role="combobox"][aria-label="Vị trí nhóm"]', pvitri); // nhập vị trí
             await page.waitForTimeout(2000); // đợi 2s để hiển thị đề xuất
             await page.click('li[aria-selected="false"][role="option"]'); // chọn li đầu tiên làm vị trí
             await page.waitForTimeout(2000); // đợi 2s để xác nhận
