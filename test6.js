@@ -350,11 +350,11 @@ const mfp = {
             await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
         }
         // sửa đối tượng tham gia nhóm
-        await page.click('div[aria-label="Chỉnh sửa ai có thể tham gia nhóm"]');// nhấn vào nút "cài đặt tham gia nhóm"
-        await page.waitForTimeout(1000); // đợi 1s để hiện tuỳ chỉnh
-        await this.pcheckclickx('//span[text() = "Trang cá nhân và Trang"]', 1, 1000); // nhấn nút lưu vị trí
-        await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
-        await page.waitForTimeout(3000);
+        // await page.click('div[aria-label="Chỉnh sửa ai có thể tham gia nhóm"]');// nhấn vào nút "cài đặt tham gia nhóm"
+        // await page.waitForTimeout(1000); // đợi 1s để hiện tuỳ chỉnh
+        // await this.pcheckclickx('//span[text() = "Trang cá nhân và Trang"]', 1, 1000); // nhấn nút lưu vị trí
+        // await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
+        // await page.waitForTimeout(3000);
 
 
         // END FUNTION DANGPOSTPAGE
