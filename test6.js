@@ -350,19 +350,17 @@ const mfp = {
             // NHẬP THÊM 5 LẦN CHO MAX
             const inputSelector = 'input[type="search"][role="combobox"][aria-label="Vị trí nhóm"]';
 
-if (await page.$(inputSelector)) {
-    for (let i = 1; i <= 5; i++) {
-        console.log(`Lần ${i}/5`);
+            if (await page.$(inputSelector)) {
+                for (let i = 1; i <= 5; i++) {
+                console.log(`Lần ${i}/5`);
         
-        await this.pppinput(inputSelector,1,pvitri); // Gõ thêm vào input hiện tại
-        await page.waitForTimeout(2000);
-        await page.click('li[aria-selected="false"][role="option"]');
+                await this.pppinput(inputSelector,1,pvitri); // Gõ thêm vào input hiện tại
+                await page.waitForTimeout(2000);
+                await page.click('li[aria-selected="false"][role="option"]');
         
-        if (i < 5) await page.waitForTimeout(1000);
-    }
-}
-
-
+                if (i < 5) await page.waitForTimeout(1000);
+                }
+            }
             // END : NHẬP THÊM 5 LẦN 
             await this.pcheckclickx('//span[text() = "Lưu"]', 2, 1000); // nhấn nút lưu vị trí
         }
