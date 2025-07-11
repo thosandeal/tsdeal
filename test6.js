@@ -310,7 +310,7 @@ const mfp = {
 
         //**TẠO ẢNH BÌA GROUND**/
         await page.waitForTimeout(1000);
-        await this.pupimage('input[type="file"]', pbanner);// up ảnh bìa
+        await this.pupimage('div[role="main"] input[type="file"]', pbanner);// up ảnh bìa
         await page.waitForTimeout(5000);
         await page.waitForXPath('//span[text()="Lưu thay đổi"]'); // đợi chữ lưu thay đổi xuất hiện
         await this.pcheckclickx('//span[text()="Lưu thay đổi"]', 2, 5000); // nhấn vào chữ lưu thay đổi
