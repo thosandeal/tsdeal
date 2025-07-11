@@ -223,9 +223,9 @@ const mfp = {
                 break;
             } else {
                 console.log('adsd');
-                await this.pcheckclickx('//label[@aria-label="Chọn quyền riêng tư"]', 1, 2000);
-                await this.pcheckclickx('//span[text()="Công khai"]', 2, 1000);
-                await this.pcheckclickx('//span[text()="Công khai"]', 1, 1000);
+                await this.pcheckclickx('//label[contains(.//span, "Chọn quyền riêng tư")]', 1, 2000);
+                await this.pcheckclickx('//div[@role="option"][@tabindex="0"][@aria-selected="true"]', 2, 1000);
+                await this.pcheckclickx('//div[@role="option"][@tabindex="0"][@aria-selected="true"]', 1, 1000);
             }
             await this.pcheckpoint();
         }
